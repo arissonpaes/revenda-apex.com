@@ -1,0 +1,2395 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APEX SISTEMA – Revenda de Software Fiscal</title>
+    <link rel="shortcut icon" href="C:\Users\ariss\Desktop\renvenda contabilidades\imagens\favicon.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <style>
+      /* ============================================================
+       RESET & BASE
+    ============================================================ */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --dark-bg: #07122b;
+        --dark-bg-2: #0b1e42;
+        --dark-bg-3: #0f2653;
+        --card-bg: #112c61;
+        --accent: #2563eb;
+        --accent-light: #3b82f6;
+        --accent-glow: #60a5fa;
+        --gold: #f59e0b;
+        --gold-light: #fbbf24;
+        --text-white: #f0f6ff;
+        --text-muted: #94a3b8;
+        --text-dim: #64748b;
+        --border: rgba(59, 130, 246, 0.18);
+        --radius: 14px;
+        --radius-sm: 8px;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: var(--dark-bg);
+        color: var(--text-white);
+        line-height: 1.65;
+        overflow-x: hidden;
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      img {
+        max-width: 100%;
+      }
+
+      /* ============================================================
+       UTILITIES
+    ============================================================ */
+      .container {
+        width: 90%;
+        max-width: 1160px;
+        margin: 0 auto;
+      }
+
+      .badge {
+        display: inline-block;
+        background: rgba(37, 99, 235, 0.18);
+        color: var(--accent-glow);
+        border: 1px solid rgba(96, 165, 250, 0.35);
+        padding: 4px 14px;
+        border-radius: 100px;
+        font-size: .78rem;
+        font-weight: 600;
+        letter-spacing: .06em;
+        text-transform: uppercase;
+      }
+
+      .section-tag {
+        font-size: .75rem;
+        font-weight: 700;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+        color: var(--accent-glow);
+      }
+
+      .highlight {
+        color: var(--accent-glow);
+      }
+
+      .gold {
+        color: var(--gold-light);
+      }
+
+      /* ============================================================
+       BUTTONS
+    ============================================================ */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 14px 32px;
+        border-radius: 100px;
+        font-weight: 700;
+        font-size: .95rem;
+        cursor: pointer;
+        border: none;
+        transition: all .25s ease;
+        text-align: center;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        color: #fff;
+        box-shadow: 0 4px 24px rgba(37, 99, 235, .45);
+      }
+
+      .btn-primary:hover {
+        background: linear-gradient(135deg, #3b82f6, #2563eb);
+        box-shadow: 0 6px 32px rgba(37, 99, 235, .65);
+        transform: translateY(-2px);
+      }
+
+      .btn-outline {
+        background: transparent;
+        color: var(--accent-glow);
+        border: 2px solid var(--accent-light);
+      }
+
+      .btn-outline:hover {
+        background: rgba(37, 99, 235, .15);
+        transform: translateY(-2px);
+      }
+
+      .btn-gold {
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+        color: #07122b;
+        box-shadow: 0 4px 24px rgba(245, 158, 11, .4);
+      }
+
+      .btn-gold:hover {
+        background: linear-gradient(135deg, #fbbf24, #f59e0b);
+        box-shadow: 0 6px 32px rgba(245, 158, 11, .6);
+        transform: translateY(-2px);
+      }
+
+      /* ============================================================
+       NAVBAR
+    ============================================================ */
+      .navbar {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(7, 18, 43, .92);
+        backdrop-filter: blur(14px);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .navbar__inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 0;
+      }
+
+      .navbar__logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .logo-icon {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .logo-icon svg {
+        width: 22px;
+        height: 22px;
+        fill: #fff;
+      }
+
+      .logo-text {
+        font-size: 1.35rem;
+        font-weight: 800;
+        letter-spacing: -.02em;
+      }
+
+      .logo-text span {
+        color: var(--gold);
+      }
+
+      .navbar__links {
+        display: flex;
+        align-items: center;
+        gap: 32px;
+        list-style: none;
+      }
+
+      .navbar__links a {
+        font-size: .9rem;
+        font-weight: 500;
+        color: var(--text-muted);
+        transition: color .2s;
+      }
+
+      .navbar__links a:hover {
+        color: var(--text-white);
+      }
+
+      .navbar__cta {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        padding: 4px;
+      }
+
+      .hamburger span {
+        display: block;
+        width: 24px;
+        height: 2px;
+        background: var(--text-white);
+        border-radius: 2px;
+        transition: all .3s;
+      }
+
+      /* ============================================================
+       HERO
+    ============================================================ */
+      .hero {
+        position: relative;
+        overflow: hidden;
+        padding: 110px 0 90px;
+        background: linear-gradient(160deg, #07122b 0%, #0b1e42 50%, #07122b 100%);
+      }
+
+      .hero::before {
+        content: '';
+        position: absolute;
+        top: -120px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 900px;
+        height: 900px;
+        background: radial-gradient(circle, rgba(37, 99, 235, .15) 0%, transparent 70%);
+        pointer-events: none;
+      }
+
+      .hero::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(96, 165, 250, .3), transparent);
+      }
+
+      .hero__content {
+        position: relative;
+        z-index: 2;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        align-items: center;
+      }
+
+      .hero__eyebrow {
+        margin-bottom: 18px;
+      }
+
+      .hero__title {
+        font-size: clamp(2rem, 4vw, 3.2rem);
+        font-weight: 900;
+        line-height: 1.12;
+        letter-spacing: -.03em;
+        margin-bottom: 22px;
+      }
+
+      .hero__subtitle {
+        font-size: 1.1rem;
+        color: var(--text-muted);
+        margin-bottom: 36px;
+        max-width: 520px;
+      }
+
+      .hero__actions {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+      }
+
+      .hero__stats {
+        display: flex;
+        gap: 32px;
+        margin-top: 48px;
+        padding-top: 36px;
+        border-top: 1px solid var(--border);
+      }
+
+      .stat__number {
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--accent-glow);
+        line-height: 1;
+      }
+
+      .stat__label {
+        font-size: .8rem;
+        color: var(--text-muted);
+        margin-top: 4px;
+      }
+
+      /* Hero visual - mockup card */
+      .hero__visual {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .mockup-card {
+        background: linear-gradient(145deg, #112c61, #0f2653);
+        border: 1px solid rgba(59, 130, 246, .25);
+        border-radius: 20px;
+        padding: 28px;
+        width: 100%;
+        max-width: 440px;
+        box-shadow: 0 24px 80px rgba(0, 0, 0, .5), 0 0 0 1px rgba(59, 130, 246, .08);
+        position: relative;
+      }
+
+      .mockup-card__header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 24px;
+        padding-bottom: 18px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .mockup-dots {
+        display: flex;
+        gap: 6px;
+      }
+
+      .mockup-dots span {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        display: block;
+      }
+
+      .mockup-dots span:nth-child(1) {
+        background: #ef4444;
+      }
+
+      .mockup-dots span:nth-child(2) {
+        background: #f59e0b;
+      }
+
+      .mockup-dots span:nth-child(3) {
+        background: #22c55e;
+      }
+
+      .mockup-title {
+        font-size: .8rem;
+        color: var(--text-muted);
+        font-weight: 500;
+      }
+
+      .mockup-metric {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(7, 18, 43, .5);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 14px 16px;
+        margin-bottom: 10px;
+      }
+
+      .mockup-metric__label {
+        font-size: .82rem;
+        color: var(--text-muted);
+      }
+
+      .mockup-metric__value {
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--text-white);
+      }
+
+      .mockup-metric__badge {
+        font-size: .7rem;
+        font-weight: 700;
+        padding: 3px 8px;
+        border-radius: 100px;
+      }
+
+      .green {
+        background: rgba(34, 197, 94, .15);
+        color: #4ade80;
+      }
+
+      .blue {
+        background: rgba(59, 130, 246, .15);
+        color: #60a5fa;
+      }
+
+      .yellow {
+        background: rgba(245, 158, 11, .15);
+        color: #fbbf24;
+      }
+
+      .mockup-bar-wrap {
+        margin-top: 18px;
+      }
+
+      .mockup-bar-label {
+        display: flex;
+        justify-content: space-between;
+        font-size: .75rem;
+        color: var(--text-muted);
+        margin-bottom: 6px;
+      }
+
+      .mockup-bar-track {
+        height: 7px;
+        background: rgba(255, 255, 255, .07);
+        border-radius: 100px;
+        overflow: hidden;
+      }
+
+      .mockup-bar-fill {
+        height: 100%;
+        border-radius: 100px;
+        background: linear-gradient(90deg, #2563eb, #60a5fa);
+      }
+
+      /* Floating badge */
+      .float-badge {
+        position: absolute;
+        top: -18px;
+        right: -18px;
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+        color: #07122b;
+        font-weight: 800;
+        font-size: .8rem;
+        padding: 10px 16px;
+        border-radius: 100px;
+        box-shadow: 0 8px 24px rgba(245, 158, 11, .4);
+        white-space: nowrap;
+      }
+
+      /* ============================================================
+       MARQUEE / TRUST BAR
+    ============================================================ */
+      .trust-bar {
+        background: var(--dark-bg-2);
+        padding: 16px 0;
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+        overflow: hidden;
+        white-space: nowrap;
+      }
+
+      .trust-bar__track {
+        display: inline-flex;
+        gap: 48px;
+        animation: marquee 28s linear infinite;
+      }
+
+      .trust-bar__item {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: .85rem;
+        font-weight: 600;
+        color: var(--text-muted);
+      }
+
+      .trust-bar__item svg {
+        color: var(--accent-glow);
+      }
+
+      @keyframes marquee {
+        0% {
+          transform: translateX(0);
+        }
+
+        100% {
+          transform: translateX(-50%);
+        }
+      }
+
+      /* ============================================================
+       SECTION GENERIC
+    ============================================================ */
+      section {
+        padding: 90px 0;
+      }
+
+      .section__header {
+        text-align: center;
+        margin-bottom: 64px;
+      }
+
+      .section__header .section-tag {
+        margin-bottom: 12px;
+      }
+
+      .section__title {
+        font-size: clamp(1.7rem, 3.5vw, 2.6rem);
+        font-weight: 800;
+        letter-spacing: -.03em;
+        line-height: 1.2;
+        margin-bottom: 16px;
+      }
+
+      .section__desc {
+        font-size: 1.05rem;
+        color: var(--text-muted);
+        max-width: 620px;
+        margin: 0 auto;
+      }
+
+      /* ============================================================
+       PROBLEMA / OPORTUNIDADE
+    ============================================================ */
+      .opportunity {
+        background: var(--dark-bg-2);
+      }
+
+      .opportunity__grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 48px;
+        align-items: center;
+      }
+
+      .opportunity__text .section-tag {
+        margin-bottom: 12px;
+      }
+
+      .opportunity__headline {
+        font-size: clamp(1.6rem, 3vw, 2.3rem);
+        font-weight: 800;
+        letter-spacing: -.03em;
+        line-height: 1.2;
+        margin-bottom: 20px;
+      }
+
+      .opportunity__body {
+        color: var(--text-muted);
+        font-size: 1rem;
+        margin-bottom: 16px;
+      }
+
+      .opportunity__points {
+        margin: 24px 0;
+      }
+
+      .opp-point {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        margin-bottom: 14px;
+      }
+
+      .opp-point__icon {
+        flex-shrink: 0;
+        width: 24px;
+        height: 24px;
+        background: rgba(37, 99, 235, .2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 2px;
+      }
+
+      .opp-point__icon svg {
+        width: 12px;
+        height: 12px;
+      }
+
+      .opp-point__text {
+        font-size: .95rem;
+        color: var(--text-muted);
+        line-height: 1.5;
+      }
+
+      .opp-point__text strong {
+        color: var(--text-white);
+      }
+
+      /* Percent cards */
+      .pct-cards {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .pct-card {
+        background: linear-gradient(145deg, #112c61, #0f2653);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 24px 28px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        transition: border-color .3s, transform .3s;
+      }
+
+      .pct-card:hover {
+        border-color: rgba(96, 165, 250, .4);
+        transform: translateX(4px);
+      }
+
+      .pct-card__number {
+        font-size: 2.8rem;
+        font-weight: 900;
+        line-height: 1;
+        color: var(--accent-glow);
+        flex-shrink: 0;
+        min-width: 100px;
+      }
+
+      .pct-card__number.gold {
+        color: var(--gold-light);
+      }
+
+      .pct-card__text {
+        font-size: .95rem;
+        color: var(--text-muted);
+      }
+
+      .pct-card__text strong {
+        color: var(--text-white);
+        display: block;
+        font-size: 1rem;
+        margin-bottom: 4px;
+      }
+
+      /* ============================================================
+       DOCUMENTOS / FEATURES
+    ============================================================ */
+      .docs-section {
+        background: var(--dark-bg);
+      }
+
+      .docs-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+
+      .doc-card {
+        background: linear-gradient(145deg, #112c61, #0d2050);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 28px 24px;
+        transition: all .3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .doc-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        opacity: 0;
+        transition: opacity .3s;
+      }
+
+      .doc-card:hover {
+        border-color: rgba(96, 165, 250, .4);
+        transform: translateY(-4px);
+      }
+
+      .doc-card:hover::before {
+        opacity: 1;
+      }
+
+      .doc-card__icon {
+        width: 48px;
+        height: 48px;
+        background: rgba(37, 99, 235, .15);
+        border-radius: var(--radius-sm);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 18px;
+        font-size: 1.4rem;
+      }
+
+      .doc-card__title {
+        font-size: 1.05rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+      }
+
+      .doc-card__desc {
+        font-size: .875rem;
+        color: var(--text-muted);
+        line-height: 1.55;
+      }
+
+      .doc-card--featured {
+        background: linear-gradient(145deg, rgba(37, 99, 235, .2), rgba(29, 78, 216, .12));
+        border-color: rgba(59, 130, 246, .4);
+      }
+
+      /* Extra features chips */
+      .extra-features {
+        margin-top: 48px;
+        background: linear-gradient(145deg, #112c61, #0f2653);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 32px 36px;
+      }
+
+      .extra-features__title {
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: .08em;
+        margin-bottom: 20px;
+      }
+
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        background: rgba(37, 99, 235, .12);
+        border: 1px solid rgba(59, 130, 246, .2);
+        color: var(--text-muted);
+        padding: 7px 14px;
+        border-radius: 100px;
+        font-size: .82rem;
+        font-weight: 500;
+        transition: all .2s;
+      }
+
+      .chip:hover {
+        background: rgba(37, 99, 235, .25);
+        color: var(--text-white);
+      }
+
+      .chip-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--accent-glow);
+      }
+
+      /* ============================================================
+       COMO FUNCIONA – STEPS
+    ============================================================ */
+      .how-it-works {
+        background: var(--dark-bg-2);
+      }
+
+      .steps {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px;
+        position: relative;
+      }
+
+      .steps::before {
+        content: '';
+        position: absolute;
+        top: 36px;
+        left: 10%;
+        width: 80%;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, var(--border), var(--border), transparent);
+      }
+
+      .step-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        position: relative;
+      }
+
+      .step-card__number {
+        width: 72px;
+        height: 72px;
+        background: linear-gradient(145deg, #112c61, #0f2653);
+        border: 2px solid var(--accent);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+        font-weight: 900;
+        color: var(--accent-glow);
+        margin-bottom: 20px;
+        position: relative;
+        z-index: 2;
+        box-shadow: 0 0 0 6px rgba(37, 99, 235, .08);
+      }
+
+      .step-card__title {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+
+      .step-card__desc {
+        font-size: .875rem;
+        color: var(--text-muted);
+        line-height: 1.55;
+      }
+
+      /* ============================================================
+       VANTAGENS / BENEFÍCIOS
+    ============================================================ */
+      .benefits {
+        background: var(--dark-bg);
+      }
+
+      .benefits__grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+      }
+
+      .benefit-card {
+        background: linear-gradient(145deg, #112c61, #0d2050);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 32px 28px;
+        transition: all .3s;
+      }
+
+      .benefit-card:hover {
+        border-color: rgba(96, 165, 250, .4);
+        transform: translateY(-4px);
+        box-shadow: 0 16px 40px rgba(0, 0, 0, .3);
+      }
+
+      .benefit-card__icon {
+        font-size: 2rem;
+        margin-bottom: 18px;
+        display: block;
+      }
+
+      .benefit-card__title {
+        font-size: 1.05rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+
+      .benefit-card__text {
+        font-size: .88rem;
+        color: var(--text-muted);
+        line-height: 1.6;
+      }
+
+      /* ============================================================
+       WHITE LABEL
+    ============================================================ */
+      .white-label {
+        background: var(--dark-bg-2);
+      }
+
+      .white-label__inner {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 64px;
+        align-items: center;
+      }
+
+      .white-label__features {
+        margin-top: 28px;
+      }
+
+      .wl-feature {
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
+        margin-bottom: 18px;
+      }
+
+      .wl-feature__icon {
+        flex-shrink: 0;
+        width: 36px;
+        height: 36px;
+        background: rgba(37, 99, 235, .15);
+        border: 1px solid rgba(59, 130, 246, .2);
+        border-radius: var(--radius-sm);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+      }
+
+      .wl-feature__title {
+        font-size: .95rem;
+        font-weight: 700;
+        margin-bottom: 4px;
+      }
+
+      .wl-feature__desc {
+        font-size: .85rem;
+        color: var(--text-muted);
+        line-height: 1.5;
+      }
+
+      /* Preview card */
+      .wl-preview {
+        background: linear-gradient(145deg, #112c61, #0f2653);
+        border: 1px solid rgba(59, 130, 246, .3);
+        border-radius: 20px;
+        padding: 32px;
+        box-shadow: 0 24px 80px rgba(0, 0, 0, .4);
+      }
+
+      .wl-preview__header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 24px;
+        padding-bottom: 18px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .wl-logo-box {
+        width: 42px;
+        height: 42px;
+        background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+      }
+
+      .wl-logo-name {
+        font-size: .9rem;
+        font-weight: 700;
+      }
+
+      .wl-logo-sub {
+        font-size: .72rem;
+        color: var(--text-muted);
+      }
+
+      .wl-nav {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+      }
+
+      .wl-nav span {
+        font-size: .72rem;
+        padding: 5px 12px;
+        border-radius: 100px;
+        background: rgba(37, 99, 235, .15);
+        color: var(--text-muted);
+        cursor: pointer;
+      }
+
+      .wl-nav span.active {
+        background: rgba(37, 99, 235, .4);
+        color: var(--accent-glow);
+      }
+
+      .wl-metrics {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .wl-metric {
+        background: rgba(7, 18, 43, .5);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 14px;
+      }
+
+      .wl-metric__label {
+        font-size: .7rem;
+        color: var(--text-muted);
+        margin-bottom: 4px;
+      }
+
+      .wl-metric__value {
+        font-size: 1.2rem;
+        font-weight: 800;
+        color: var(--text-white);
+      }
+
+      .wl-metric__sub {
+        font-size: .7rem;
+        color: #4ade80;
+      }
+
+      /* ============================================================
+       DEPOIMENTOS / TESTEMUNHOS
+    ============================================================ */
+      .testimonials {
+        background: var(--dark-bg);
+      }
+
+      .testimonials-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+      }
+
+      .testi-card {
+        background: linear-gradient(145deg, #112c61, #0d2050);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 28px;
+        transition: all .3s;
+      }
+
+      .testi-card:hover {
+        border-color: rgba(96, 165, 250, .4);
+        transform: translateY(-4px);
+      }
+
+      .testi-stars {
+        color: var(--gold-light);
+        font-size: .9rem;
+        margin-bottom: 16px;
+      }
+
+      .testi-text {
+        font-size: .9rem;
+        color: var(--text-muted);
+        line-height: 1.7;
+        margin-bottom: 20px;
+        font-style: italic;
+      }
+
+      .testi-author {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .testi-avatar {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 1rem;
+        color: #fff;
+      }
+
+      .testi-name {
+        font-size: .9rem;
+        font-weight: 700;
+      }
+
+      .testi-role {
+        font-size: .78rem;
+        color: var(--text-muted);
+      }
+
+      /* ============================================================
+       FAQ
+    ============================================================ */
+      .faq-section {
+        background: var(--dark-bg-2);
+      }
+
+      .faq-list {
+        max-width: 780px;
+        margin: 0 auto;
+      }
+
+      .faq-item {
+        background: linear-gradient(145deg, #112c61, #0d2050);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        margin-bottom: 12px;
+        overflow: hidden;
+        transition: border-color .3s;
+      }
+
+      .faq-item.open {
+        border-color: rgba(96, 165, 250, .4);
+      }
+
+      .faq-question {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 24px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: .95rem;
+        transition: color .2s;
+      }
+
+      .faq-question:hover {
+        color: var(--accent-glow);
+      }
+
+      .faq-icon {
+        flex-shrink: 0;
+        width: 24px;
+        height: 24px;
+        border: 1px solid var(--accent);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--accent-glow);
+        transition: transform .3s;
+        font-size: .9rem;
+      }
+
+      .faq-item.open .faq-icon {
+        transform: rotate(45deg);
+      }
+
+      .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height .4s ease, padding .3s;
+      }
+
+      .faq-item.open .faq-answer {
+        max-height: 300px;
+      }
+
+      .faq-answer__inner {
+        padding: 0 24px 20px;
+        font-size: .9rem;
+        color: var(--text-muted);
+        line-height: 1.7;
+      }
+
+      /* ============================================================
+       CTA FINAL
+    ============================================================ */
+      .cta-section {
+        background: linear-gradient(135deg, #0b1e42, #07122b);
+        padding: 100px 0;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .cta-section::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 800px;
+        height: 800px;
+        background: radial-gradient(circle, rgba(37, 99, 235, .12) 0%, transparent 65%);
+        pointer-events: none;
+      }
+
+      .cta-section__inner {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+      }
+
+      .cta-section__title {
+        font-size: clamp(1.8rem, 4vw, 3rem);
+        font-weight: 900;
+        letter-spacing: -.03em;
+        line-height: 1.15;
+        margin-bottom: 20px;
+      }
+
+      .cta-section__desc {
+        font-size: 1.1rem;
+        color: var(--text-muted);
+        max-width: 560px;
+        margin: 0 auto 40px;
+      }
+
+      .cta-section__actions {
+        display: flex;
+        gap: 16px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .cta-section__note {
+        margin-top: 20px;
+        font-size: .82rem;
+        color: var(--text-dim);
+      }
+
+      /* ============================================================
+       FOOTER
+    ============================================================ */
+      .footer {
+        background: #04091a;
+        border-top: 1px solid var(--border);
+        padding: 64px 0 32px;
+      }
+
+      .footer__grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 48px;
+        margin-bottom: 48px;
+      }
+
+      .footer__brand p {
+        font-size: .88rem;
+        color: var(--text-muted);
+        margin-top: 14px;
+        line-height: 1.65;
+        max-width: 280px;
+      }
+
+      .footer__social {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .social-btn {
+        width: 36px;
+        height: 36px;
+        background: rgba(37, 99, 235, .15);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-muted);
+        font-size: .9rem;
+        transition: all .2s;
+        cursor: pointer;
+      }
+
+      .social-btn:hover {
+        background: rgba(37, 99, 235, .3);
+        color: var(--text-white);
+      }
+
+      .footer__col-title {
+        font-size: .85rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .08em;
+        color: var(--text-muted);
+        margin-bottom: 18px;
+      }
+
+      .footer__links {
+        list-style: none;
+      }
+
+      .footer__links li {
+        margin-bottom: 10px;
+      }
+
+      .footer__links a {
+        font-size: .88rem;
+        color: var(--text-dim);
+        transition: color .2s;
+      }
+
+      .footer__links a:hover {
+        color: var(--text-white);
+      }
+
+      .footer__bottom {
+        border-top: 1px solid var(--border);
+        padding-top: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .footer__copy {
+        font-size: .82rem;
+        color: var(--text-dim);
+      }
+
+      .footer__legal {
+        display: flex;
+        gap: 20px;
+      }
+
+      .footer__legal a {
+        font-size: .82rem;
+        color: var(--text-dim);
+        transition: color .2s;
+      }
+
+      .footer__legal a:hover {
+        color: var(--text-muted);
+      }
+
+      /* ============================================================
+       SCROLL PROGRESS BAR
+    ============================================================ */
+      #scroll-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 3px;
+        width: 0%;
+        background: linear-gradient(90deg, #2563eb, #60a5fa);
+        z-index: 9999;
+        transition: width .1s;
+      }
+
+      /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+      @media (max-width: 1024px) {
+        .docs-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .steps {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .steps::before {
+          display: none;
+        }
+
+        .benefits__grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .testimonials-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 768px) {
+
+        .navbar__links,
+        .navbar__cta {
+          display: none;
+        }
+
+        .hamburger {
+          display: flex;
+        }
+
+        .hero__content {
+          grid-template-columns: 1fr;
+        }
+
+        .hero__visual {
+          display: none;
+        }
+
+        .opportunity__grid {
+          grid-template-columns: 1fr;
+        }
+
+        .white-label__inner {
+          grid-template-columns: 1fr;
+        }
+
+        .footer__grid {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .docs-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .steps {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .benefits__grid {
+          grid-template-columns: 1fr;
+        }
+
+        .testimonials-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .hero__stats {
+          flex-direction: column;
+          gap: 18px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .footer__grid {
+          grid-template-columns: 1fr;
+        }
+
+        .steps {
+          grid-template-columns: 1fr;
+        }
+
+        .wl-metrics {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* ============================================================
+       MOBILE NAV
+    ============================================================ */
+      .mobile-nav {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(7, 18, 43, .97);
+        backdrop-filter: blur(16px);
+        z-index: 200;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 28px;
+      }
+
+      .mobile-nav.active {
+        display: flex;
+      }
+
+      .mobile-nav a {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--text-white);
+      }
+
+      .mobile-nav__close {
+        position: absolute;
+        top: 24px;
+        right: 24px;
+        font-size: 1.8rem;
+        cursor: pointer;
+        color: var(--text-muted);
+        background: none;
+        border: none;
+        color: var(--text-white);
+      }
+
+      /* ============================================================
+       ANIMATIONS
+    ============================================================ */
+      .fade-up {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity .6s ease, transform .6s ease;
+      }
+
+      .fade-up.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Counter animation */
+      .count-up {
+        display: inline-block;
+      }
+    </style>
+    <script type="text/javascript" src="./index.js" defer=""></script>
+    <link rel="stylesheet" href="./index.css">
+  </head>
+
+  <body>
+
+    <!-- SCROLL PROGRESS -->
+    <div id="scroll-bar"></div>
+
+    <!-- ================================================================
+     MOBILE NAV
+================================================================ -->
+    <nav class="mobile-nav" id="mobileNav">
+      <button class="mobile-nav__close" id="closeNav">✕</button>
+      <a href="#documentos" onclick="toggleNav()">Documentos Fiscais</a>
+      <a href="#como-funciona" onclick="toggleNav()">Como Funciona</a>
+      <a href="#vantagens" onclick="toggleNav()">Vantagens</a>
+      <a href="#faq" onclick="toggleNav()">FAQ</a>
+      <a href="#contato" class="btn btn-primary" onclick="toggleNav()">Quero ser Revendedor</a>
+    </nav>
+
+    <!-- ================================================================
+     NAVBAR
+================================================================ -->
+    <header class="navbar">
+      <div class="container">
+        <nav class="navbar__inner">
+          <div class="navbar__logo">
+            <div class="logo">
+              <img src="C:\Users\ariss\Desktop\renvenda contabilidades\imagens\logoPrincipal.png" alt="Logo" <svg="" viewbox="0 0 24 24">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5">
+              </path>
+            </div>
+
+          </div>
+
+          <ul class="navbar__links">
+            <li><a href="#documentos">Documentos Fiscais</a></li>
+            <li><a href="#como-funciona">Como Funciona</a></li>
+            <li><a href="#vantagens">Vantagens</a></li>
+            <li><a href="#faq">FAQ</a></li>
+          </ul>
+
+          <div class="navbar__cta">
+            <a href="#contato" class="btn btn-outline" style="padding:10px 22px;font-size:.85rem;">Falar com Especialista</a>
+            <a href="#contato" class="btn btn-primary" style="padding:10px 22px;font-size:.85rem;">Quero ser Revendedor</a>
+          </div>
+
+          <div class="hamburger" id="hamburger" onclick="toggleNav()">
+            <span></span><span></span><span></span>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <!-- ================================================================
+     HERO
+================================================================ -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero__content">
+          <div class="hero__left fade-up">
+            <div class="hero__eyebrow">
+              <span class="badge">🚀 Plataforma White Label 100%</span>
+            </div>
+            <h1 class="hero__title">
+              Ajudamos sua <span class="highlight">Contabilidade</span> a lucrar até
+              <span class="gold">150%</span> com o Emissor de Notas Fiscais
+            </h1>
+            <p class="hero__subtitle">
+              Tenha acesso a uma plataforma <strong>personalizada com a sua marca</strong>,
+              especializada em <strong>emissão de documentos fiscais</strong> e diferencie-se
+              dos seus concorrentes com a APEX SISTEMA.
+            </p>
+            <div class="hero__actions">
+              <a href="#contato" class="btn btn-gold">
+                <span>🎯</span> Quero ser Revendedor
+              </a>
+              <a href="#como-funciona" class="btn btn-outline">
+                Como funciona →
+              </a>
+            </div>
+
+            <div class="hero__stats">
+              <div class="stat">
+                <div class="stat__number count-up" data-target="150">0</div><span class="stat__number" style="font-size:1.4rem; color:var(--gold-light);">%</span>
+                <div class="stat__label">de lucro potencial</div>
+              </div>
+              <div class="stat">
+                <div class="stat__number"><span class="count-up" data-target="7">0</span>+</div>
+                <div class="stat__label">tipos de documentos</div>
+              </div>
+              <div class="stat">
+                <div class="stat__number"><span class="count-up" data-target="1500">0</span>+</div>
+                <div class="stat__label">municípios atendidos</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Visual / Mockup -->
+          <div class="hero__visual fade-up" style="transition-delay:.2s">
+            <div class="mockup-card">
+              <div class="float-badge">⚡ Receita Recorrente</div>
+              <div class="mockup-card__header">
+                <div class="mockup-dots">
+                  <span></span><span></span><span></span>
+                </div>
+                <div class="mockup-title">APEX SISTEMA – Painel do Revendedor</div>
+              </div>
+
+              <div class="mockup-metric">
+                <div>
+                  <div class="mockup-metric__label">Receita do Mês</div>
+                  <div class="mockup-metric__value">R$ 18.450,00</div>
+                </div>
+                <span class="mockup-metric__badge green">+34%</span>
+              </div>
+
+              <div class="mockup-metric">
+                <div>
+                  <div class="mockup-metric__label">Clientes Ativos</div>
+                  <div class="mockup-metric__value">127 empresas</div>
+                </div>
+                <span class="mockup-metric__badge blue">+12</span>
+              </div>
+
+              <div class="mockup-metric">
+                <div>
+                  <div class="mockup-metric__label">NFs Emitidas (hoje)</div>
+                  <div class="mockup-metric__value">2.381 documentos</div>
+                </div>
+                <span class="mockup-metric__badge yellow">Ativo</span>
+              </div>
+
+              <div class="mockup-bar-wrap">
+                <div class="mockup-bar-label">
+                  <span>Meta mensal</span>
+                  <span style="color:var(--accent-glow)">78%</span>
+                </div>
+                <div class="mockup-bar-track">
+                  <div class="mockup-bar-fill" style="width:78%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+     TRUST BAR
+================================================================ -->
+    <div class="trust-bar">
+      <div class="trust-bar__track" id="trustTrack">
+        <span class="trust-bar__item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>Plataforma 100% White Label</span>
+        <span class="trust-bar__item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>Receita Recorrente Garantida</span>
+        <span class="trust-bar__item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>Suporte Técnico Especializado</span>
+        <span class="trust-bar__item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>7 Tipos de Documentos Fiscais</span>
+        <span class="trust-bar__item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>+1.500 Municípios Atendidos</span>
+        <span class="trust-bar__item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>Atualização Fiscal Automática</span>
+        <span class="trust-bar__item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>Plataforma 100% White Label</span>
+        <span class="trust-bar__item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>Receita Recorrente Garantida</span>
+        <span class="trust-bar__item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>Suporte Técnico Especializado</span>
+        <span class="trust-bar__item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>7 Tipos de Documentos Fiscais</span>
+        <span class="trust-bar__item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>+1.500 Municípios Atendidos</span>
+        <span class="trust-bar__item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>Atualização Fiscal Automática</span>
+      </div>
+    </div>
+
+    <!-- ================================================================
+     OPORTUNIDADE
+================================================================ -->
+    <section class="opportunity" id="oportunidade">
+      <div class="container">
+        <div class="opportunity__grid">
+          <div class="opportunity__text fade-up">
+            <div class="section-tag">A oportunidade que você precisa</div>
+            <h2 class="opportunity__headline">
+              Tenha <span class="highlight">receita recorrente</span> de todos os seus clientes com emissão de
+              <span class="gold">notas fiscais</span>
+            </h2>
+            <p class="opportunity__body">
+              O mercado de emissão de documentos fiscais eletrônicos é enorme e continua crescendo.
+              Cada empresa brasileira precisa emitir notas fiscais — e sua revenda pode ser a solução
+              que elas precisam, com a marca da <strong>APEX SISTEMA</strong>.
+            </p>
+            <p class="opportunity__body">
+              Um único ambiente onde <strong>seu cliente pode emitir até 7 tipos de documentos fiscais</strong>,
+              enquanto você lucra de forma recorrente, mês após mês.
+            </p>
+
+            <div class="opportunity__points">
+              <div class="opp-point">
+                <div class="opp-point__icon">
+                  <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="var(--accent-glow)" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </div>
+                <div class="opp-point__text"><strong>Sua marca, seu negócio</strong> — o cliente não sabe que é você revendendo</div>
+              </div>
+              <div class="opp-point">
+                <div class="opp-point__icon">
+                  <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="var(--accent-glow)" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </div>
+                <div class="opp-point__text"><strong>Suporte técnico para sua revenda</strong> — nossa equipe cuida da parte técnica</div>
+              </div>
+              <div class="opp-point">
+                <div class="opp-point__icon">
+                  <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="var(--accent-glow)" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </div>
+                <div class="opp-point__text"><strong>Atualizações automáticas</strong> — nunca se preocupe com mudanças fiscais</div>
+              </div>
+              <div class="opp-point">
+                <div class="opp-point__icon">
+                  <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="var(--accent-glow)" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </div>
+                <div class="opp-point__text"><strong>Escala ilimitada</strong> — adicione quantos clientes quiser</div>
+              </div>
+            </div>
+
+            <a href="#contato" class="btn btn-primary">Começar agora →</a>
+          </div>
+
+          <div class="pct-cards fade-up" style="transition-delay:.2s">
+            <div class="pct-card">
+              <div class="pct-card__number gold">150%</div>
+              <div class="pct-card__text">
+                <strong>Lucro potencial</strong>
+                Revenda nosso sistema com sua margem sobre o valor que desejar cobrar dos seus clientes
+              </div>
+            </div>
+            <div class="pct-card">
+              <div class="pct-card__number">7+</div>
+              <div class="pct-card__text">
+                <strong>Tipos de documentos fiscais</strong>
+                NFe, NFCe, NFSe, CTe, CTeOS, MDFe e muito mais em um único painel
+              </div>
+            </div>
+            <div class="pct-card">
+              <div class="pct-card__number">100%</div>
+              <div class="pct-card__text">
+                <strong>White Label</strong>
+                Plataforma totalmente personalizada com a identidade visual da sua empresa
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+     DOCUMENTOS FISCAIS
+================================================================ -->
+    <section class="docs-section" id="documentos">
+      <div class="container">
+        <div class="section__header fade-up">
+          <div class="section-tag">Documentos Suportados</div>
+          <h2 class="section__title">Um único ambiente onde seu cliente<br>emite até <span class="highlight">7 tipos de documentos</span> fiscais</h2>
+          <p class="section__desc">Cobertura completa para empresas de qualquer segmento — comércio, serviços e transporte.</p>
+        </div>
+
+        <div class="docs-grid">
+          <div class="doc-card doc-card--featured fade-up">
+            <div class="doc-card__icon">📄</div>
+            <div class="doc-card__title">NFe e NFPe</div>
+            <div class="doc-card__desc">Nota Fiscal Eletrônica e Nota Fiscal do Produtor Rural. Atende ao comércio em geral e produtores rurais com validação automática na SEFAZ.</div>
+          </div>
+          <div class="doc-card fade-up">
+            <div class="doc-card__icon">🛒</div>
+            <div class="doc-card__title">NFCe (PDV Online)</div>
+            <div class="doc-card__desc">Nota Fiscal do Consumidor Eletrônica com PDV integrado. Ideal para varejo, mercados e estabelecimentos que vendem diretamente ao consumidor final.</div>
+          </div>
+          <div class="doc-card fade-up">
+            <div class="doc-card__icon">🏢</div>
+            <div class="doc-card__title">NFSe (+1.500 Municípios)</div>
+            <div class="doc-card__desc">Nota Fiscal Eletrônica de Serviços com cobertura de mais de 1.500 municípios em todo o Brasil. Perfeito para prestadores de serviço.</div>
+          </div>
+          <div class="doc-card fade-up">
+            <div class="doc-card__icon">🚚</div>
+            <div class="doc-card__title">CTe</div>
+            <div class="doc-card__desc">Conhecimento de Transporte Eletrônico. Ideal para transportadoras e embarcadores, com total conformidade com a legislação vigente.</div>
+          </div>
+          <div class="doc-card fade-up">
+            <div class="doc-card__icon">🔄</div>
+            <div class="doc-card__title">CTeOS</div>
+            <div class="doc-card__desc">Conhecimento de Transporte Eletrônico para Outros Serviços. Especial para prestadores de serviços de transporte diferenciados.</div>
+          </div>
+          <div class="doc-card fade-up">
+            <div class="doc-card__icon">📦</div>
+            <div class="doc-card__title">MDFe</div>
+            <div class="doc-card__desc">Manifesto Eletrônico de Documentos Fiscais. Obrigatório para o transporte de cargas em âmbito estadual e interestadual.</div>
+          </div>
+        </div>
+
+        <!-- Extra features -->
+        <div class="extra-features fade-up">
+          <div class="extra-features__title">E muito mais incluído na plataforma</div>
+          <div class="chips">
+            <div class="chip"><span class="chip-dot"></span>TEF Integrado</div>
+            <div class="chip"><span class="chip-dot"></span>Multiempresas</div>
+            <div class="chip"><span class="chip-dot"></span>IBPT Automático</div>
+            <div class="chip"><span class="chip-dot"></span>Contingência (SVC)</div>
+            <div class="chip"><span class="chip-dot"></span>Importação / Exportação de Cadastros</div>
+            <div class="chip"><span class="chip-dot"></span>Envio automático de XML à contabilidade</div>
+            <div class="chip"><span class="chip-dot"></span>Dashboard em tempo real</div>
+            <div class="chip"><span class="chip-dot"></span>Relatórios avançados</div>
+            <div class="chip"><span class="chip-dot"></span>API de integração</div>
+            <div class="chip"><span class="chip-dot"></span>Backup automático em nuvem</div>
+            <div class="chip"><span class="chip-dot"></span>Suporte WhatsApp</div>
+            <div class="chip"><span class="chip-dot"></span>Treinamento incluso</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+     COMO FUNCIONA
+================================================================ -->
+    <section class="how-it-works" id="como-funciona">
+      <div class="container">
+        <div class="section__header fade-up">
+          <div class="section-tag">Passo a passo</div>
+          <h2 class="section__title">Como funciona a <span class="highlight">Revenda APEX SISTEMA</span></h2>
+          <p class="section__desc">Em poucos passos você já estará vendendo seu próprio sistema fiscal com a sua marca.</p>
+        </div>
+
+        <div class="steps">
+          <div class="step-card fade-up">
+            <div class="step-card__number">1</div>
+            <div class="step-card__title">Solicite uma Demo</div>
+            <div class="step-card__desc">Entre em contato com nossos especialistas e agende uma demonstração completa da plataforma sem compromisso.</div>
+          </div>
+          <div class="step-card fade-up" style="transition-delay:.1s">
+            <div class="step-card__number">2</div>
+            <div class="step-card__title">Personalização White Label</div>
+            <div class="step-card__desc">Configuramos a plataforma com a logomarca, cores e identidade visual da sua empresa em tempo recorde.</div>
+          </div>
+          <div class="step-card fade-up" style="transition-delay:.2s">
+            <div class="step-card__number">3</div>
+            <div class="step-card__title">Treinamento Completo</div>
+            <div class="step-card__desc">Nossa equipe treina você e sua equipe para vender, configurar e suportar os clientes com total confiança.</div>
+          </div>
+          <div class="step-card fade-up" style="transition-delay:.3s">
+            <div class="step-card__number">4</div>
+            <div class="step-card__title">Lucre com Recorrência</div>
+            <div class="step-card__desc">Cadastre seus clientes na plataforma e comece a receber sua margem de lucro mensalmente de forma automática.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+     VANTAGENS / BENEFÍCIOS
+================================================================ -->
+    <section class="benefits" id="vantagens">
+      <div class="container">
+        <div class="section__header fade-up">
+          <div class="section-tag">Por que escolher a APEX SISTEMA</div>
+          <h2 class="section__title">Vantagens exclusivas para<br>quem é <span class="highlight">parceiro revendedor</span></h2>
+          <p class="section__desc">Diferente de outras soluções, a APEX SISTEMA foi construída para que o revendedor lucre de verdade.</p>
+        </div>
+
+        <div class="benefits__grid">
+          <div class="benefit-card fade-up">
+            <span class="benefit-card__icon">💰</span>
+            <div class="benefit-card__title">Receita Recorrente Real</div>
+            <div class="benefit-card__text">Ganhe mensalmente por cada cliente ativo. Quanto mais clientes, maior sua renda passiva — e sem limite de crescimento.</div>
+          </div>
+          <div class="benefit-card fade-up" style="transition-delay:.1s">
+            <span class="benefit-card__icon">🏷️</span>
+            <div class="benefit-card__title">100% White Label</div>
+            <div class="benefit-card__text">O cliente vê apenas a sua marca. Nenhuma menção à APEX SISTEMA. Você é o dono do produto aos olhos do mercado.</div>
+          </div>
+          <div class="benefit-card fade-up" style="transition-delay:.2s">
+            <span class="benefit-card__icon">⚡</span>
+            <div class="benefit-card__title">Setup Rápido</div>
+            <div class="benefit-card__text">Em menos de 48h sua plataforma personalizada está no ar, pronta para receber clientes e gerar faturamento.</div>
+          </div>
+          <div class="benefit-card fade-up" style="transition-delay:.05s">
+            <span class="benefit-card__icon">🛡️</span>
+            <div class="benefit-card__title">Suporte Técnico Dedicado</div>
+            <div class="benefit-card__text">Equipe especializada disponível para auxiliar você e seus clientes. Nunca enfrente um problema técnico sozinho.</div>
+          </div>
+          <div class="benefit-card fade-up" style="transition-delay:.15s">
+            <span class="benefit-card__icon">🔄</span>
+            <div class="benefit-card__title">Atualizações Automáticas</div>
+            <div class="benefit-card__text">Toda mudança fiscal e tributária é atualizada automaticamente. Nenhuma preocupação com legislação — cuidamos disso.</div>
+          </div>
+          <div class="benefit-card fade-up" style="transition-delay:.25s">
+            <span class="benefit-card__icon">📈</span>
+            <div class="benefit-card__title">Escalabilidade Total</div>
+            <div class="benefit-card__text">Comece com poucos clientes e escale para centenas. Nossa infraestrutura cresce junto com o seu negócio.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+     WHITE LABEL SHOWCASE
+================================================================ -->
+    <section class="white-label" id="white-label">
+      <div class="container">
+        <div class="white-label__inner">
+          <div class="fade-up">
+            <div class="section-tag" style="margin-bottom:12px">Plataforma White Label</div>
+            <h2 class="section__title" style="text-align:left;margin-bottom:16px">
+              Tenha o <span class="highlight">seu próprio sistema</span><br>de emissão fiscal
+            </h2>
+            <p style="color:var(--text-muted);font-size:1rem;margin-bottom:28px">
+              Personalizamos cada detalhe da plataforma com a identidade visual da sua empresa.
+              Logomarca, cores, domínio próprio e muito mais — tudo para que o cliente se sinta
+              dentro do <em>seu</em> sistema.
+            </p>
+
+            <div class="white-label__features">
+              <div class="wl-feature">
+                <div class="wl-feature__icon">🎨</div>
+                <div>
+                  <div class="wl-feature__title">Identidade Visual Completa</div>
+                  <div class="wl-feature__desc">Logo, cores, fonte e estilo adaptados à sua marca profissionalmente.</div>
+                </div>
+              </div>
+              <div class="wl-feature">
+                <div class="wl-feature__icon">🌐</div>
+                <div>
+                  <div class="wl-feature__title">Domínio Próprio</div>
+                  <div class="wl-feature__desc">Acesse via sistema.suaempresa.com.br — nenhuma URL de terceiros.</div>
+                </div>
+              </div>
+              <div class="wl-feature">
+                <div class="wl-feature__icon">📱</div>
+                <div>
+                  <div class="wl-feature__title">Responsivo e Multi-dispositivo</div>
+                  <div class="wl-feature__desc">Acesso total pelo computador, tablet ou smartphone.</div>
+                </div>
+              </div>
+              <div class="wl-feature">
+                <div class="wl-feature__icon">📊</div>
+                <div>
+                  <div class="wl-feature__title">Painel do Revendedor</div>
+                  <div class="wl-feature__desc">Monitore clientes, emissões e receita em tempo real no seu painel.</div>
+                </div>
+              </div>
+            </div>
+
+            <a href="#contato" class="btn btn-gold" style="margin-top:12px">Peça uma demonstração →</a>
+          </div>
+
+          <!-- WL Preview mockup -->
+          <div class="wl-preview fade-up" style="transition-delay:.2s">
+            <div class="wl-preview__header">
+              <div class="wl-logo-box">🏢</div>
+              <div>
+                <div class="wl-logo-name">Sua Empresa Fiscal</div>
+                <div class="wl-logo-sub">sistema.suaempresa.com.br</div>
+              </div>
+            </div>
+
+            <div class="wl-nav">
+              <span class="active">Dashboard</span>
+              <span>Emitir NF</span>
+              <span>Clientes</span>
+              <span>Relatórios</span>
+              <span>Config.</span>
+            </div>
+
+            <div class="wl-metrics">
+              <div class="wl-metric">
+                <div class="wl-metric__label">NFs Emitidas</div>
+                <div class="wl-metric__value">3.847</div>
+                <div class="wl-metric__sub">↑ +18% este mês</div>
+              </div>
+              <div class="wl-metric">
+                <div class="wl-metric__label">Clientes Ativos</div>
+                <div class="wl-metric__value">94</div>
+                <div class="wl-metric__sub">↑ +5 novos</div>
+              </div>
+              <div class="wl-metric">
+                <div class="wl-metric__label">Receita Mensal</div>
+                <div class="wl-metric__value">R$12.400</div>
+                <div class="wl-metric__sub">↑ Recorrente</div>
+              </div>
+              <div class="wl-metric">
+                <div class="wl-metric__label">Uptime</div>
+                <div class="wl-metric__value">99.9%</div>
+                <div class="wl-metric__sub">Estável</div>
+              </div>
+            </div>
+
+            <div style="margin-top:18px;padding:14px;background:rgba(37,99,235,.1);border-radius:8px;border:1px solid rgba(59,130,246,.2);">
+              <div style="font-size:.75rem;color:var(--text-muted);margin-bottom:8px">Emissões por tipo (este mês)</div>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <div>
+                  <div style="display:flex;justify-content:space-between;font-size:.72rem;margin-bottom:3px"><span style="color:var(--text-muted)">NFe</span><span style="color:var(--accent-glow)">68%</span></div>
+                  <div style="height:5px;background:rgba(255,255,255,.07);border-radius:100px">
+                    <div style="height:100%;width:68%;background:linear-gradient(90deg,#2563eb,#60a5fa);border-radius:100px"></div>
+                  </div>
+                </div>
+                <div>
+                  <div style="display:flex;justify-content:space-between;font-size:.72rem;margin-bottom:3px"><span style="color:var(--text-muted)">NFSe</span><span style="color:var(--accent-glow)">22%</span></div>
+                  <div style="height:5px;background:rgba(255,255,255,.07);border-radius:100px">
+                    <div style="height:100%;width:22%;background:linear-gradient(90deg,#7c3aed,#a78bfa);border-radius:100px"></div>
+                  </div>
+                </div>
+                <div>
+                  <div style="display:flex;justify-content:space-between;font-size:.72rem;margin-bottom:3px"><span style="color:var(--text-muted)">NFCe</span><span style="color:var(--accent-glow)">10%</span></div>
+                  <div style="height:5px;background:rgba(255,255,255,.07);border-radius:100px">
+                    <div style="height:100%;width:10%;background:linear-gradient(90deg,#f59e0b,#fbbf24);border-radius:100px"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+     DEPOIMENTOS
+================================================================ -->
+    <section class="testimonials" id="depoimentos">
+      <div class="container">
+        <div class="section__header fade-up">
+          <div class="section-tag">Depoimentos</div>
+          <h2 class="section__title">O que nossos <span class="highlight">revendedores</span> dizem</h2>
+          <p class="section__desc">Veja como outros parceiros estão transformando seus negócios com a APEX SISTEMA.</p>
+        </div>
+
+        <div class="testimonials-grid">
+          <div class="testi-card fade-up">
+            <div class="testi-stars">★★★★★</div>
+            <div class="testi-text">"Comecei com 5 clientes e hoje tenho mais de 80 empresas pagando mensalmente pelo sistema. A receita recorrente mudou completamente meu negócio. Recomendo de olhos fechados!"</div>
+            <div class="testi-author">
+              <div class="testi-avatar" style="background:linear-gradient(135deg,#2563eb,#1d4ed8)">C</div>
+              <div>
+                <div class="testi-name">Carlos Eduardo</div>
+                <div class="testi-role">Revenda CE Sistemas — Fortaleza, CE</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="testi-card fade-up" style="transition-delay:.1s">
+            <div class="testi-stars">★★★★★</div>
+            <div class="testi-text">"O suporte da APEX é incrível. Qualquer dúvida, eles respondem rapidinho. Meus clientes estão super satisfeitos e nem sabem que é uma revenda — acham que é meu sistema próprio!"</div>
+            <div class="testi-author">
+              <div class="testi-avatar" style="background:linear-gradient(135deg,#7c3aed,#6d28d9)">A</div>
+              <div>
+                <div class="testi-name">Ana Paula Ribeiro</div>
+                <div class="testi-role">APR Soluções Fiscais — Belo Horizonte, MG</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="testi-card fade-up" style="transition-delay:.2s">
+            <div class="testi-stars">★★★★★</div>
+            <div class="testi-text">"Em 6 meses já recuperei meu investimento inicial e hoje o sistema gera renda passiva todo mês. Setup foi rápido, plataforma estável e atualiza sozinha. Excelente parceria!"</div>
+            <div class="testi-author">
+              <div class="testi-avatar" style="background:linear-gradient(135deg,#059669,#047857)">R</div>
+              <div>
+                <div class="testi-name">Roberto Almeida</div>
+                <div class="testi-role">Digital Fiscal Solutions — São Paulo, SP</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+     FAQ
+================================================================ -->
+    <section class="faq-section" id="faq">
+      <div class="container">
+        <div class="section__header fade-up">
+          <div class="section-tag">Dúvidas Frequentes</div>
+          <h2 class="section__title">Perguntas <span class="highlight">frequentes</span></h2>
+          <p class="section__desc">Tire suas principais dúvidas sobre como funciona o programa de revendedores APEX SISTEMA.</p>
+        </div>
+
+        <div class="faq-list fade-up">
+          <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-question">
+              Preciso ter experiência em sistemas fiscais para ser revendedor?
+              <span class="faq-icon">+</span>
+            </div>
+            <div class="faq-answer">
+              <div class="faq-answer__inner">
+                Não! Fornecemos treinamento completo para que você e sua equipe possam dominar a plataforma e oferecer suporte básico aos clientes. Nossa equipe técnica está sempre disponível para situações mais complexas, então você nunca ficará sem resposta.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-question">
+              Como é calculada minha comissão como revendedor?
+              <span class="faq-icon">+</span>
+            </div>
+            <div class="faq-answer">
+              <div class="faq-answer__inner">
+                Você define o preço de venda para seus clientes. A APEX SISTEMA cobra um valor de custo por cliente ativo, e a diferença entre o que você cobra e o nosso custo é 100% seu lucro. Alguns revendedores chegam a 400% de margem conforme o segmento atendido.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-question">
+              Em quanto tempo minha plataforma White Label fica pronta?
+              <span class="faq-icon">+</span>
+            </div>
+            <div class="faq-answer">
+              <div class="faq-answer__inner">
+                Após o onboarding inicial, sua plataforma personalizada fica configurada em até 48 horas úteis. O processo inclui aplicação da logo, paleta de cores, configuração de domínio e testes iniciais de funcionamento.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-question">
+              A plataforma cobre quais estados e municípios?
+              <span class="faq-icon">+</span>
+            </div>
+            <div class="faq-answer">
+              <div class="faq-answer__inner">
+                Nossa plataforma atende todos os estados brasileiros para NFe, CTe e MDFe. Para NFSe (Nota Fiscal de Serviços), já cobrimos mais de 1.500 municípios em todo o Brasil, com novas prefeituras sendo adicionadas mensalmente.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-question">
+              Como funciona o suporte técnico para meus clientes?
+              <span class="faq-icon">+</span>
+            </div>
+            <div class="faq-answer">
+              <div class="faq-answer__inner">
+                Você terá acesso ao nosso canal de suporte exclusivo para revendedores via WhatsApp e e-mail. Para questões técnicas avançadas, nossa equipe responde em até 4 horas úteis. Questões emergenciais de emissão têm prioridade máxima.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-question">
+              Existe limite de clientes que posso cadastrar?
+              <span class="faq-icon">+</span>
+            </div>
+            <div class="faq-answer">
+              <div class="faq-answer__inner">
+                Não existe limite! Você pode cadastrar quantos clientes desejar na plataforma. Nossa infraestrutura foi desenvolvida para suportar crescimento ilimitado, garantindo estabilidade mesmo com alto volume de emissões.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+     CTA FINAL / FORMULÁRIO DE CONTATO
+================================================================ -->
+    <section class="cta-section" id="contato">
+      <div class="container">
+        <div class="cta-section__inner fade-up">
+          <span class="badge" style="margin-bottom:24px;display:inline-block">🤝 Programa de Revendedores</span>
+          <h2 class="cta-section__title">
+            Tenha o seu próprio sistema<br>de emissão fiscal com a
+            <span class="gold">sua marca</span>
+          </h2>
+          <p class="cta-section__desc">
+            Clique no botão abaixo e peça uma demonstração com nossos especialistas. Sem compromisso, sem custo.
+          </p>
+
+          <!-- Formulário simples -->
+          <div style="background:linear-gradient(145deg,#112c61,#0f2653);border:1px solid var(--border);border-radius:20px;padding:40px;max-width:560px;margin:0 auto 32px;text-align:left;">
+            <div style="font-size:1.1rem;font-weight:700;margin-bottom:24px;text-align:center">Solicite uma demonstração gratuita</div>
+            <form id="contactForm" onsubmit="handleFormSubmit(event)">
+              <div style="margin-bottom:16px">
+                <label style="display:block;font-size:.82rem;color:var(--text-muted);margin-bottom:6px">Seu Nome Completo *</label>
+                <input type="text" required="" placeholder="Ex.: João da Silva" style="width:100%;background:rgba(7,18,43,.6);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 16px;color:var(--text-white);font-size:.9rem;outline:none;transition:border-color .2s;font-family:inherit" onfocus="this.style.borderColor='rgba(96,165,250,.5)'" onblur="this.style.borderColor='var(--border)'">
+              </div>
+              <div style="margin-bottom:16px">
+                <label style="display:block;font-size:.82rem;color:var(--text-muted);margin-bottom:6px">WhatsApp / Telefone *</label>
+                <input type="tel" required="" placeholder="(00) 00000-0000" style="width:100%;background:rgba(7,18,43,.6);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 16px;color:var(--text-white);font-size:.9rem;outline:none;transition:border-color .2s;font-family:inherit" onfocus="this.style.borderColor='rgba(96,165,250,.5)'" onblur="this.style.borderColor='var(--border)'">
+              </div>
+              <div style="margin-bottom:16px">
+                <label style="display:block;font-size:.82rem;color:var(--text-muted);margin-bottom:6px">E-mail *</label>
+                <input type="email" required="" placeholder="voce@suaempresa.com.br" style="width:100%;background:rgba(7,18,43,.6);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 16px;color:var(--text-white);font-size:.9rem;outline:none;transition:border-color .2s;font-family:inherit" onfocus="this.style.borderColor='rgba(96,165,250,.5)'" onblur="this.style.borderColor='var(--border)'">
+              </div>
+              <div style="margin-bottom:24px">
+                <label style="display:block;font-size:.82rem;color:var(--text-muted);margin-bottom:6px">Nome da sua Empresa</label>
+                <input type="text" placeholder="Ex.: Silva Sistemas" style="width:100%;background:rgba(7,18,43,.6);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 16px;color:var(--text-white);font-size:.9rem;outline:none;transition:border-color .2s;font-family:inherit" onfocus="this.style.borderColor='rgba(96,165,250,.5)'" onblur="this.style.borderColor='var(--border)'">
+              </div>
+              <button type="submit" class="btn btn-gold" style="width:100%;justify-content:center;font-size:1rem">
+                🚀 Quero minha demonstração gratuita
+              </button>
+              <div id="formMsg" style="display:none;margin-top:14px;text-align:center;font-size:.88rem;color:#4ade80">✅ Mensagem enviada! Em breve nossa equipe entrará em contato.</div>
+            </form>
+          </div>
+
+          <p class="cta-section__note">
+            🔒 Sem compromisso. Seus dados estão seguros conosco e não serão compartilhados.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+     FOOTER
+================================================================ -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer__grid">
+          <div class="footer__brand">
+            <div class="navbar__logo" style="margin-bottom:4px">
+              <div class="">
+                <img src="C:\Users\ariss\Desktop\renvenda contabilidades\imagens\logo.png" alt="Logo" <svg="" viewbox="0 0 24 24">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" fill="none" stroke="white" stroke-width="2">
+                </path>
+              </div>
+            </div>
+            <p>Plataforma White Label especializada em emissão de documentos fiscais eletrônicos. Ajudamos revendas de software a lucrar com recorrência.</p>
+            <div class="footer__social">
+              <div class="social-btn" title="Instagram">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="2" width="20" height="20" rx="5"></rect>
+                  <circle cx="12" cy="12" r="4"></circle>
+                  <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"></circle>
+                </svg>
+              </div>
+              <div class="social-btn" title="LinkedIn">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                  <rect x="2" y="9" width="4" height="12"></rect>
+                  <circle cx="4" cy="4" r="2"></circle>
+                </svg>
+              </div>
+              <div class="social-btn" title="WhatsApp">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"></path>
+                </svg>
+              </div>
+              <div class="social-btn" title="YouTube">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"></path>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="footer__col-title">Produto</div>
+            <ul class="footer__links">
+              <li><a href="#documentos">Documentos Fiscais</a></li>
+              <li><a href="#white-label">White Label</a></li>
+              <li><a href="#vantagens">Benefícios</a></li>
+              <li><a href="#como-funciona">Como Funciona</a></li>
+              <li><a href="#contato">Preços</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <div class="footer__col-title">Suporte</div>
+            <ul class="footer__links">
+              <li><a href="#faq">FAQ</a></li>
+              <li><a href="#contato">Central de Ajuda</a></li>
+              <li><a href="#contato">Contato</a></li>
+              <li><a href="#contato">Treinamentos</a></li>
+              <li><a href="#contato">Blog</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <div class="footer__col-title">Contato</div>
+            <ul class="footer__links">
+              <li><a href="">📧 <span class="" data-cfemail="74171b1a0015001b341504110c071d07001119155a171b195a1606"></span>financeiro@apesistema.com</a></li>
+              <li><a href="tel:+5500000000000">📞 (41) 98795-0237</a></li>
+              <li><a href="#contato">💬 WhatsApp</a></li>
+              <li><a href="#contato" style="margin-top:10px;display:block">
+                  <span class="badge" style="font-size:.72rem">Seg–Sex: 8h às 18h</span>
+                </a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer__bottom">
+          <div class="footer__copy">© 2025 APEX ERP LTDA. Todos os direitos reservados.</div>
+          <div class="footer__legal">
+            <a href="#">Política de Privacidade</a>
+            <a href="#">Termos de Uso</a>
+            <a href="#">LGPD</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- ================================================================
+     JAVASCRIPT
+================================================================ -->
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script>
+      /* ─── Scroll progress bar ─── */
+      window.addEventListener('scroll', () => {
+        const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+        document.getElementById('scroll-bar').style.width = scrolled + '%';
+      });
+
+      /* ─── Mobile nav toggle ─── */
+      function toggleNav() {
+        document.getElementById('mobileNav').classList.toggle('active');
+      }
+      document.getElementById('closeNav').addEventListener('click', toggleNav);
+
+      /* ─── FAQ accordion ─── */
+      function toggleFaq(item) {
+        const wasOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('open'));
+        if (!wasOpen) item.classList.add('open');
+      }
+
+      /* ─── Intersection Observer — fade-up ─── */
+      const fadeEls = document.querySelectorAll('.fade-up');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.12
+      });
+      fadeEls.forEach(el => observer.observe(el));
+
+      /* ─── Counter animation ─── */
+      function animateCount(el) {
+        const target = +el.dataset.target;
+        const duration = 1800;
+        const step = target / (duration / 16);
+        let current = 0;
+        const timer = setInterval(() => {
+          current = Math.min(current + step, target);
+          el.textContent = Math.floor(current).toLocaleString('pt-BR');
+          if (current >= target) clearInterval(timer);
+        }, 16);
+      }
+
+      const counterObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            animateCount(entry.target);
+            counterObserver.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.5
+      });
+
+      document.querySelectorAll('.count-up').forEach(el => counterObserver.observe(el));
+
+      /* ─── Form submit ─── */
+      function handleFormSubmit(e) {
+        e.preventDefault();
+        const msg = document.getElementById('formMsg');
+        msg.style.display = 'block';
+        e.target.querySelectorAll('input').forEach(i => i.value = '');
+        setTimeout(() => {
+          msg.style.display = 'none';
+        }, 6000);
+      }
+
+      /* ─── Smooth nav highlight on scroll ─── */
+      const sections = document.querySelectorAll('section[id]');
+      window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+          if (window.scrollY >= section.offsetTop - 120) current = section.id;
+        });
+        document.querySelectorAll('.navbar__links a').forEach(a => {
+          a.style.color = a.getAttribute('href') === '#' + current ? 'var(--accent-glow)' : '';
+        });
+      });
+    </script>
+
+
+  </body>
+
+</html>
